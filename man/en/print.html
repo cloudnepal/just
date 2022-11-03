@@ -1005,7 +1005,8 @@ The executable is at: /bin/just
 <div style="break-before: page; page-break-before: always;"></div><h3 id="recipe-attributes"><a class="header" href="#recipe-attributes">Recipe Attributes</a></h3>
 <p>Recipes may be annotated with attributes that change their behavior.</p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>[no-exit-message]</code></td><td>Don’t print an error message when a recipe fails.</td></tr>
+<tr><td><code>[no-cd]</code></td><td>Don’t change directory before executing recipe.</td></tr>
+<tr><td><code>[no-exit-message]</code></td><td>Don’t print an error message if recipe fails.</td></tr>
 <tr><td><code>[linux]</code></td><td>Enable recipe on Linux.</td></tr>
 <tr><td><code>[macos]</code></td><td>Enable recipe on MacOS.</td></tr>
 <tr><td><code>[unix]</code></td><td>Enable recipe on Unixes.</td></tr>
@@ -1031,6 +1032,21 @@ run:
   cl main.c
   main.exe
 </code></pre>
+<h4 id="disabling-changing-directorymaster"><a class="header" href="#disabling-changing-directorymaster">Disabling Changing Directory<sup>master</sup></a></h4>
+<p><code>just</code> normally executes recipes with the current directory set to the
+directory that contains the <code>justfile</code>. This can be disabled using the
+<code>[no-cd]</code> attribute. This can be used to create recipes which use paths
+relative to the invocation directory, or which operate on the current
+directory.</p>
+<p>For exmaple, this <code>commit</code> recipe:</p>
+<pre><code class="language-make">[no-cd]
+commit file:
+  git add {{file}}
+  git commit
+</code></pre>
+<p>Can be used with paths that are relative to the current directory, because
+<code>[no-cd]</code> prevents <code>just</code> from changing the current directory when executing
+<code>commit</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h3 id="command-evaluation-using-backticks"><a class="header" href="#command-evaluation-using-backticks">Command Evaluation Using Backticks</a></h3>
 <p>Backticks can be used to store the result of commands:</p>
 <pre><code class="language-make">localhost := `dumpinterfaces | cut -d: -f2 | sed 's/\/.*//' | sed 's/ //g'`
@@ -1764,12 +1780,18 @@ done
 <pre><code class="language-make">export PATH := &quot;./node_modules/.bin:&quot; + env_var('PATH')
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h3 id="alternatives-and-prior-art"><a class="header" href="#alternatives-and-prior-art">Alternatives and Prior Art</a></h3>
-<p>There is no shortage of command runners out there! Some more or less similar alternatives to <code>just</code> include:</p>
+<p>There is no shortage of command runners! Some more or less similar alternatives to <code>just</code> include:</p>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Make_(software)">make</a>: The Unix build tool that inspired <code>just</code>.</li>
-<li><a href="https://github.com/xonixx/makesure">makesure</a>: A simple and portable command runner written in AWK and shell.</li>
+<li><a href="https://en.wikipedia.org/wiki/Make_(software)">make</a>: The Unix build tool that inspired <code>just</code>. There are a few different modern day descendents of the original <code>make</code>, including <a href="https://www.freebsd.org/cgi/man.cgi?make(1)">FreeBSD Make</a> and <a href="https://www.gnu.org/software/make/">GNU Make</a>.</li>
+<li><a href="https://github.com/go-task/task">task</a>: A YAML-based command runner written in Go.</li>
+<li><a href="https://github.com/egoist/maid">maid</a>: A Markdown-based command runner written in JavaScript.</li>
+<li><a href="https://github.com/microsoft/just">microsoft/just</a>: A JavasScript-based command runner written in JavaScript.</li>
+<li><a href="https://github.com/sagiegurari/cargo-make">cargo-make</a>: A command runner for Rust projects.</li>
 <li><a href="https://github.com/tj/mmake">mmake</a>: A wrapper around <code>make</code> with a number of improvements, including remote includes.</li>
 <li><a href="https://github.com/tj/robo">robo</a>: A YAML-based command runner written in Go.</li>
+<li><a href="https://github.com/jakedeichert/mask">mask</a>: A Markdown-based command runner written in Rust.</li>
+<li><a href="https://github.com/xonixx/makesure">makesure</a>: A simple and portable command runner written in AWK and shell.</li>
+<li><a href="https://github.com/VladimirMarkelov/haku">haku</a>: A make-like command runner written in Rust.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="contributing"><a class="header" href="#contributing">Contributing</a></h2>
 <p><code>just</code> welcomes your contributions! <code>just</code> is released under the maximally permissive <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt">CC0</a> public domain dedication and fallback license, so your changes must also be released under this license.</p>
