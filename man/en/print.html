@@ -702,7 +702,7 @@ foo:
 <p><code>just</code> passes the command to be executed as an argument. Many shells will need an additional flag, often <code>-c</code>, to make them evaluate the first argument.</p>
 <h5 id="windows-shell"><a class="header" href="#windows-shell">Windows Shell</a></h5>
 <p><code>just</code> uses <code>sh</code> on Windows by default. To use a different shell on Windows, use <code>windows-shell</code>:</p>
-<pre><code class="language-make">set windows-shell := [&quot;pwsh.exe&quot;, &quot;-NoLogo&quot;, &quot;-Command&quot;]
+<pre><code class="language-make">set windows-shell := [&quot;powershell.exe&quot;, &quot;-NoLogo&quot;, &quot;-Command&quot;]
 
 hello:
   Write-Host &quot;Hello, world!&quot;
@@ -951,6 +951,7 @@ The executable is at: /bin/just
 <ul>
 <li><code>quote(s)</code> - Replace all single quotes with <code>'\''</code> and prepend and append single quotes to <code>s</code>. This is sufficient to escape special characters for many shells, including most Bourne shell descendants.</li>
 <li><code>replace(s, from, to)</code> - Replace all occurrences of <code>from</code> in <code>s</code> to <code>to</code>.</li>
+<li><code>replace_regex(s, regex, replacement)</code> - Replace all occurrences of <code>regex</code> in <code>s</code> to <code>replacement</code>.</li>
 <li><code>trim(s)</code> - Remove leading and trailing whitespace from <code>s</code>.</li>
 <li><code>trim_end(s)</code> - Remove trailing whitespace from <code>s</code>.</li>
 <li><code>trim_end_match(s, pat)</code> - Remove suffix of <code>s</code> matching <code>pat</code>.</li>
